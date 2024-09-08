@@ -19,7 +19,7 @@ interface EnvVariables {
 
 function App() {
   const {
-    VITE_TELEGRAM_BOT_NAME = "LitDevGuidesBot",
+    VITE_TELEGRAM_BOT_NAME = "avail_lint_sign_bot",
     VITE_TELEGRAM_BOT_SECRET,
   } = import.meta.env as unknown as EnvVariables;
 
@@ -134,6 +134,18 @@ function App() {
     }
   };
 
+
+  const handleCopyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text).then(
+      () => {
+        console.log("Text copied to clipboard");
+      },
+      (err) => {
+        console.error("Could not copy text: ", err);
+      }
+    );
+  };
+
   const isUserValid = telegramUser && !validationError;
 
   return (
@@ -175,6 +187,12 @@ function App() {
             <div>
               <p>Successfully minted PKP!</p>
               <p>Check the JavaScript console for PKP info</p>
+                            <button onClick={() => handleCopyToClipboard(mintedPkp.publicKey)}>
+                Copy Public Key
+              </button>
+              <button onClick={() => handleCopyToClipboard(mintedPkp.tokenId)}>
+                Copy Private Key
+              </button>
             </div>
           )}
           <hr />
